@@ -1,0 +1,125 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+</head>
+<body>
+    <script>
+        let students = [];
+        //adding new student
+        function addStudent(id, name, age, grade, course) {
+            if (!id || !name || !age || !grade || !course) {
+                alert("Fill the all fields!");
+                return;
+            }
+
+            let exists = students.some(student => student.id == id);
+            if (exists) {
+                alert("The record is already exists")
+            }
+
+            let newStudent = { id, name, age, grade, course }
+            students.push(newStudent)
+            alert("Record added successfully")
+        }
+
+        //View all students
+        function viewStudents() {
+            if (!students) {
+                alert("No records found!!!")
+            } else {
+                let list = "List of students: \n\n"
+                students.map(l => list += `ID:${l.id}\n Name:${l.name}\n Age:${l.age}\n Grade: ${l.grade}\n Course: ${l.course}\n------------------\n`)
+                alert(list)
+            }
+
+        }
+        //Update Student
+        function updateStudent(updateId, newGrade, newCourse){
+            let studentID = students.some(s => s.id == updateId);
+            if (!studentID) {
+                alert("Record not Found!!!")
+                return;
+            } else {
+                students.map(s => {
+                    if (s.id == updateId) {
+                        if (newGrade) s.grade = newGrade;
+                        if (newCourse) s.course = newCourse;
+                    }
+                })
+                alert("Record Updated Successfully!!")
+            }
+        }
+        //Delete Student 
+        function deleteStudent(id) {
+            let studentID = students.findIndex(s => s.id == id);
+            if (studentID == -1) {
+                alert("Record not Found!!!")
+                return;
+            } else {
+                students.splice(studentID, 1)
+                alert("Record Deleted Successfully!!")
+            }
+        }
+        //Search Student
+        function searchStudent(id) {
+            let student = students.find(s => s.id == id);
+            if (!student) {
+                alert("Record not Found!!!")
+                return;
+            } else {
+                alert(`Student Found: \n\n ID: ${student.id}\n Name: ${student.name}\n Age: ${student.age}\n Grade: ${student.grade}\n Course: ${student.course}`)
+            }
+           
+        }
+        //input
+        while (true) {
+            let choice = prompt(
+                " STUDENT MANAGEMENT SYSTEM \n\n 1.Add Student\n 2. View All Students\n 3.Update Student\n4.Delete Student\n5. Search Student\n6.Exit\n\nEnter your choice:"
+            );
+
+            if (choice === null) break;
+            switch (choice) {
+                case "1":
+                    let id = prompt("Enter Student ID:");
+                    let name = prompt("Enter Student Name:");
+                    let age = prompt("Enter Student Age:");
+                    let grade = prompt("Enter Student Grade:");
+                    let course = prompt("Enter Student Course:");
+                    addStudent(id, name, age, grade, course);
+                    break;
+                case "2":
+                    viewStudents();
+                    break;
+                case "3":
+                    let updateId = prompt("Enter Student ID to update:");
+                    let newGrade = prompt("Enter new Grade (leave blank to keep unchanged):");
+                    let newCourse = prompt("Enter new Course (leave blank to keep unchanged):");
+                    updateStudent(updateId, newGrade, newCourse);
+                    break;
+                case "4":
+                    let deleteId = prompt("Enter Student ID to delete:");
+                    deleteStudent(deleteId);
+                    break;
+                case "5":
+                    let searchId = prompt("Enter Student ID to search:");
+                    searchStudent(searchId);
+                    break;
+                case "6":
+                    alert("Exiting the system. Goodbye!");
+                    break;
+                default:
+                    alert("Invalid choice! Please try again.");
+            }
+        }
+    </script>
+</body>
+
+</html>
